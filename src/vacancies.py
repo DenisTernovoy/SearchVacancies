@@ -28,54 +28,30 @@ class Vacancy:
     def __ge__(self, other: Any) -> bool:
         """Магический метод сравнения >="""
 
-        if isinstance(other, self.__class__):
-            if self.salary["currency"] == other.salary["currency"]:
-                return self.salary["amount"] >= other.salary["amount"]
-            else:
-                raise ValueError("Сравниваемые вакансии должны иметь одинаковую валюту")
-        elif isinstance(other, (float, int)):
-            return self.salary["amount"] >= other
-        else:
-            raise TypeError("Сравниваемы объекты должны принадлежать классу Vacancy")
+        obj_1, obj_2 = self.__validate_type(self, other)
+
+        return obj_1 >= obj_2
 
     def __gt__(self, other: Any) -> bool:
         """Магический метод сравнения >"""
 
-        if isinstance(other, self.__class__):
-            if self.salary["currency"] == other.salary["currency"]:
-                return self.salary["amount"] > other.salary["amount"]
-            else:
-                raise ValueError("Сравниваемые вакансии должны иметь одинаковую валюту")
-        elif isinstance(other, (float, int)):
-            return self.salary["amount"] > other
-        else:
-            raise TypeError("Сравниваемы объекты должны принадлежать классу Vacancy")
+        obj_1, obj_2 = self.__validate_type(self, other)
+
+        return obj_1 > obj_2
 
     def __le__(self, other: Any) -> bool:
         """Магический метод сравнения <="""
 
-        if isinstance(other, self.__class__):
-            if self.salary["currency"] == other.salary["currency"]:
-                return self.salary["amount"] <= other.salary["amount"]
-            else:
-                raise ValueError("Сравниваемые вакансии должны иметь одинаковую валюту")
-        elif isinstance(other, (float, int)):
-            return self.salary["amount"] <= other
-        else:
-            raise TypeError("Сравниваемы объекты должны принадлежать классу Vacancy")
+        obj_1, obj_2 = self.__validate_type(self, other)
+
+        return obj_1 <= obj_2
 
     def __lt__(self, other: Any) -> bool:
         """Магический метод сравнения <"""
 
-        if isinstance(other, self.__class__):
-            if self.salary["currency"] == other.salary["currency"]:
-                return self.salary["amount"] < other.salary["amount"]
-            else:
-                raise ValueError("Сравниваемые вакансии должны иметь одинаковую валюту")
-        elif isinstance(other, (float, int)):
-            return self.salary["amount"] < other
-        else:
-            raise TypeError("Сравниваемы объекты должны принадлежать классу Vacancy")
+        obj_1, obj_2 = self.__validate_type(self, other)
+
+        return obj_1 < obj_2
 
     @classmethod
     def cast_to_object_list(cls, hh_vacancies: list) -> list:
@@ -132,3 +108,16 @@ class Vacancy:
             cleaned_text = re.sub(r"<.*?>", "", requirements)
             return cleaned_text
         return ""
+
+    @staticmethod
+    def __validate_type(obj_1: Any, obj_2: Any) -> Any:
+
+        if isinstance(obj_2, obj_1.__class__):
+            if obj_2.salary["currency"] != obj_1.salary["currency"]:
+                raise ValueError("Сравниваемые вакансии должны иметь одинаковую валюту")
+            else:
+                return obj_1.salary["amount"], obj_2.salary["amount"]
+        elif isinstance(obj_2, (float, int)):
+            return obj_1.salary["amount"], obj_2
+        else:
+            raise TypeError("Сравниваемы объекты должны принадлежать классу Vacancy")

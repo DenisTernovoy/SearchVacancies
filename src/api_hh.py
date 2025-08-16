@@ -8,7 +8,7 @@ class Parser(ABC):
     """Абстрактный класс для работы с API"""
 
     @abstractmethod
-    def __connect_api(self, text: str) -> Any:
+    def connect_api(self, text: str) -> Any:
         pass
 
     @abstractmethod
@@ -28,10 +28,10 @@ class HH(Parser):
 
         self.__url: str = "https://api.hh.ru/vacancies"
         self.__headers: dict = {"User-Agent": "HH-User-Agent"}
-        self.__params: dict = {"text": "", "page": 0, "per_page": 100}
+        self.__params: dict = {"text": "", "per_page": 100}
         self.__vacancies: list = []
 
-    def _Parser__connect_api(self, text: str) -> Union[None, Any]:
+    def connect_api(self, text: str) -> Union[None, Any]:
         """Приватный метод подключения к HH API"""
 
         self.__params["text"] = text
@@ -45,10 +45,9 @@ class HH(Parser):
     def get_vacancies(self, text: str) -> list:
         """Метод получения списка вакансий по HH API"""
 
-        response = self._Parser__connect_api(text)
+        response = self.connect_api(text)
         if response:
-            while self.__params.get("page") != 20:
-                vacancies = response.json()["items"]
-                self.__vacancies.extend(vacancies)
-                self.__params["page"] += 1
+            vacancies = response.json()["items"]
+            self.__vacancies.extend(vacancies)
+
         return self.__vacancies
