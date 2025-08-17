@@ -16,7 +16,7 @@ class Vacancy:
 
     __slots__ = ("name", "url_vacancy", "salary", "requirements", "address")
 
-    def __init__(self, name: str, url_vacancy: str, salary: dict, requirements: str, address: str) -> None:
+    def __init__(self, name: str, url_vacancy: str, salary: Any, requirements: Any, address: str) -> None:
         """Конструктор для класса Vacancy"""
 
         self.name = name
@@ -120,4 +120,4 @@ class Vacancy:
         elif isinstance(obj_2, (float, int)):
             return obj_1.salary["amount"], obj_2
         else:
-            raise TypeError("Сравниваемы объекты должны принадлежать классу Vacancy")
+            raise TypeError("Сравниваемы объекты должны принадлежать классу Vacancy или float/int")
