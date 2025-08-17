@@ -47,14 +47,14 @@ class JSONSaver(FileWork):
         if path.exists():
             with open(path, "r", encoding="utf-8") as file:
                 data = json.load(file)
+
+            for vac in dict_data:
+                for vac_json in data:
+                    if vac["url"] == vac_json.get("url", None):
+                        continue
+                data.append(vac)
         else:
             data = []
-
-        for vac in dict_data:
-            for vac_json in data:
-                if vac["url"] == vac_json.get("url", None):
-                    continue
-            data.append(vac)
 
         with open(path, "w", encoding="utf-8") as file:
             json.dump(data, file, indent=4, ensure_ascii=False)
