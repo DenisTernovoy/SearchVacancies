@@ -68,6 +68,7 @@ def list_vacancies() -> list:
             "Аналитик", "https://some_url.ru", {"currency": "RUR", "from": 150000.0, "to": None}, "Знание НД", "Москва"
         ),
     ]
+
     return list_vacancy
 
 

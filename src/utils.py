@@ -5,7 +5,7 @@ def filter_vacancies(list_vacancies: list, filter_words: list) -> list:
         filtered_list = []
         for vac in list_vacancies:
             for word in filter_words:
-                if word.lower() in vac.name or word.lower() in vac.requirements:
+                if word.lower() in vac.name.lower() or word.lower() in vac.requirements.lower():
                     filtered_list.append(vac)
                     continue
     else:
